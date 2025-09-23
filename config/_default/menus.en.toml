@@ -1,0 +1,35 @@
+# -- Main Menu --
+# The main menu is displayed in the header at the top of the page.
+# Acceptable parameters are name, pageRef, page, url, title, weight.
+#
+# The social menu is displayed at the bottom of the page.
+
+[[main]]
+  name = "Home"
+  url = "/"
+  weight = 5
+
+[[main]]
+  name = "Blog"
+  url = "/posts"
+  weight = 10
+
+[[main]]
+  name = "Topics"
+  url = "/tags"
+  weight = 20
+
+
+# -- Footer Menu --
+# The footer menu is displayed at the bottom of the page before
+# the copyright notice. Configure as per the main menu above.
+
+[[footer]]
+  name = "Tags"
+  pageRef = "tags"
+  weight = 10
+
+[[footer]]
+  name = "Categories"
+  pageRef = "categories"
+  weight = 20

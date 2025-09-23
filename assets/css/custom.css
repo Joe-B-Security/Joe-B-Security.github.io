@@ -1,0 +1,261 @@
+/* Custom Typography - Professional Hanken Grotesk */
+
+/* Import Google Fonts - Hanken Grotesk */
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap');
+
+/* Override Blowfish default typography */
+:root {
+  --font-header: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+/* Apply fonts to all elements */
+html {
+  font-family: var(--font-body);
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'pnum' 1, 'tnum' 0, 'onum' 1, 'lnum' 0, 'dlig' 0;
+}
+
+/* Headers with WeWork-style weights and spacing */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-header);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-size: 3rem;
+}
+
+h2 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1.75rem;
+}
+
+/* Body text with proper WeWork-style leading */
+p, article p, .prose p {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+/* Navigation and UI elements */
+nav, .nav, button, .button, .btn {
+  font-family: var(--font-header);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Hero section typography */
+.hero h1, .hero .title {
+  font-family: var(--font-header);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.hero p, .hero .subtitle {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+/* Article titles */
+.article-title, .post-title {
+  font-family: var(--font-header);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+/* Professional spacing adjustments */
+.prose {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Code blocks with better mono font */
+code, pre, .highlight {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* Better font rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* WeWork-style button typography */
+.button, .btn, button {
+  font-family: var(--font-header);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+/* Professional footer text */
+footer {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+/* Responsive wider content layout */
+/* Target main content containers for wider layout */
+.container, .max-w-prose, .prose {
+  max-width: min(90vw, 1200px);
+}
+
+.article-content, .post-content {
+  max-width: min(90vw, 1200px);
+}
+
+/* Article container responsive width */
+article {
+  max-width: min(90vw, 1200px);
+  margin: 0 auto;
+}
+
+/* Content wrapper responsive adjustments */
+.content, .article, .single {
+  max-width: min(90vw, 1200px);
+  margin: 0 auto;
+}
+
+/* Main content container with responsive limits */
+main {
+  max-width: min(90vw, 1200px);
+  margin: 0 auto;
+}
+
+/* Responsive Blowfish layout classes */
+.max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
+  max-width: min(90vw, 1200px);
+}
+
+.max-w-3xl, .max-w-2xl, .max-w-xl {
+  max-width: min(85vw, 900px);
+}
+
+/* Target specific prose classes for responsive width */
+.prose-lg, .prose-xl, .prose-2xl {
+  max-width: min(90vw, 1200px);
+}
+
+/* Code block fixes - proper overflow handling */
+.chroma, .highlight, pre {
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: pre;
+}
+
+.chroma .lntable {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Ensure code blocks don't break out of containers */
+pre code {
+  word-wrap: normal;
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+/* Image constraints to prevent overlap with TOC */
+.prose img, article img, .single img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  display: block;
+}
+
+/* Prevent images from overlapping with TOC on larger screens */
+@media (min-width: 1024px) {
+  .prose img, article img, .single img {
+    max-width: calc(100% - 2rem);
+  }
+}
+
+/* Table responsive behavior */
+.prose table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* Post List Spacing Improvements */
+/* Ensure Tailwind space-y utilities work properly */
+.space-y-10 > * + * {
+  margin-top: 2.5rem !important;
+}
+
+/* Additional spacing for article items in list view */
+.article {
+  margin-bottom: 3rem !important;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgb(245, 245, 245);
+}
+
+.dark .article {
+  border-bottom-color: rgb(64, 64, 64);
+}
+
+/* Year header spacing */
+h2.text-2xl.font-bold {
+  margin-top: 4rem !important;
+  margin-bottom: 2rem !important;
+}
+
+h2.text-2xl.font-bold:first-of-type {
+  margin-top: 2rem !important;
+}
+
+/* Enhanced visual separation for articles */
+.article:last-child {
+  border-bottom: none;
+  margin-bottom: 2rem !important;
+}
+
+/* Responsive spacing adjustments */
+@media (max-width: 768px) {
+  .article {
+    margin-bottom: 2rem !important;
+    padding-bottom: 1.5rem;
+  }
+
+  .space-y-10 > * + * {
+    margin-top: 2rem !important;
+  }
+
+  h2.text-2xl.font-bold {
+    margin-top: 3rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* Improve article content spacing */
+.article .text-xl.font-bold {
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.article .text-sm {
+  margin-bottom: 0.5rem;
+}
+

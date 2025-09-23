@@ -1,0 +1,23 @@
+languageCode = "en"
+languageName = "English"
+weight = 1
+title = "Joe Bollen Security"
+
+[params]
+  displayName = "EN"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  # logo = "img/logo.png"
+  # secondaryLogo = "img/secondary-logo.png"
+  description = "Security insights"
+  # copyright = "Copy, _right?_ :thinking_face:"
+
+[params.author]
+  name = "Joe Bollen"
+  image = "/img/author.jpg"
+  headline = "Security Insights"
+  bio = "Focused on Application and AI security research."
+  links = [
+    { github = "https://github.com/joe-b-security" }
+  ]
