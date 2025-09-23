@@ -52,7 +52,7 @@ smartTOCHideUnfocusedChildren = false
   showLikes = false
   showDateOnlyInArticle = false
   showDateUpdated = false
-  showAuthor = true
+  showAuthor = false
   showHero = true
   heroStyle = "basic" # valid options: basic, big, background, thumbAndBackground
   layoutBackgroundBlur = false # only used when heroStyle equals background
@@ -115,3 +115,12 @@ smartTOCHideUnfocusedChildren = false
   # bing = ""
   # pinterest = ""
   # yandex = ""
+
+[Author]
+  name = "Joe Bollen"
+  image = "img/author.jpg"
+  headline = "Security Insights"
+  bio = "Focused on Application and AI security research."
+  links = [
+    { github = "https://github.com/joe-b-security" }
+  ]
