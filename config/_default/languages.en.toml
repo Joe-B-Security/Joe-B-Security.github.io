@@ -13,11 +13,3 @@ title = "Joe Bollen Security"
   description = "Security insights"
   # copyright = "Copy, _right?_ :thinking_face:"
 
-[params.author]
-  name = "Joe Bollen"
-  image = "/img/author.jpg"
-  headline = "Security Insights"
-  bio = "Focused on Application and AI security research."
-  links = [
-    { github = "https://github.com/joe-b-security" }
-  ]
