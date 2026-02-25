@@ -2,7 +2,7 @@
 title: "Navigating the Hidden Risks of Custom GPT Configurations"
 date: 2023-11-29
 description: "Exploring how Custom GPT configurations can be exploited for data exfiltration and the hidden security risks they present"
-tags: ["A SecurityI", "Prompt Injection"]
+tags: ["AI Security", "Prompt Injection"]
 ---
 
 # Navigating the Hidden Risks of Custom GPT Configurations
@@ -78,4 +78,4 @@ This second POC underscores the critical need for users to be cautious about the
 
 The vulnerability within Custom GPT configurations was responsibly disclosed through the Bugcrowd platform. However, it was deemed Not Applicable, as model safety falls outside the traditional scope of security concerns addressed through such platforms. This decision reflects a broader challenge in the field of AI security – the need for evolving frameworks and guidelines that encompass the unique aspects of AI and machine learning, including model safety and data integrity.
 
-*Research and write up in colloboration with https://twitter.com/JacobFonduAI*
+*Research and write-up in collaboration with https://twitter.com/JacobFonduAI*

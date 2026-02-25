@@ -7,7 +7,7 @@ tags: ["XSS", "Bug Bounty", "Burp Suite"]
 
 When you have that feeling an input is vulnerable to XSS but something is blocking or removing the payload, you can use this relatively simple trick using Burp Suite's Intruder to discover which XSS tags and attributes are able to bypass the block.
 
-It should be somewhat obvious when you input a value containing an common XSS payload that the request is being blocked or stripped, it could be by a piece of custom code or a WAF.
+It should be somewhat obvious when you input a value containing a common XSS payload that the request is being blocked or stripped, it could be by a piece of custom code or a WAF.
 
 The request:
 
@@ -29,11 +29,11 @@ or perhaps:
 
 > `GET /?search=<script>test</script> HTTP/1.1`
 
-has it's tags stripped and searching for:
+has its tags stripped and searching for:
 
 > `0 search results for 'test'`
 
-Thanks to the great work done by [Port Swigger research](https://twitter.com/PortSwiggerRes), we have an comprehensive and regularly updated [cheat sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet) for XSS events and tags.
+Thanks to the great work done by [Port Swigger research](https://twitter.com/PortSwiggerRes), we have a comprehensive and regularly updated [cheat sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet) for XSS events and tags.
 
 Let's go ahead and send the request to Intruder and highlight the input between the tags `< >`
 
@@ -43,7 +43,7 @@ Next, visit the cheat sheet and scroll down to *Event handlers* and click *Copy 
 
 ![img](https://i.imgur.com/h7ZSW1X.png)
 
-Go back to intruder and in the *Payloads* tab, have *Paylod type* as *Simple list* and click *Paste* for *Payload Options* and start the attack
+Go back to intruder and in the *Payloads* tab, have *Payload type* as *Simple list* and click *Paste* for *Payload Options* and start the attack
 
 ![img](https://i.imgur.com/YA54WBp.png)
 
@@ -51,7 +51,7 @@ View the results and if you're lucky, you might get a few different responses fo
 
 ![img](https://i.imgur.com/l5B9p8y.png)
 
-Now we know the `<body>` tag is not being blocked or stripped, let's move onto building the rest of our XSS payload and add an event. Go back to intruder, add `<body` to the value, include a `%20` to include a URL friendly space, and highlight where we will add the event and finaly add a `=` which will be in our final XSS payload:
+Now we know the `<body>` tag is not being blocked or stripped, let's move onto building the rest of our XSS payload and add an event. Go back to intruder, add `<body` to the value, include a `%20` to include a URL friendly space, and highlight where we will add the event and finally add a `=` which will be in our final XSS payload:
 
 ![img](https://i.imgur.com/0zLRZ5x.png)
 
@@ -61,7 +61,7 @@ View the results and if you're lucky again you will get some different responses
 
 ![img](https://i.imgur.com/RMnmdno.png)
 
-Now have sucessfully got a tag and event bypassed, and an XSS fired off!
+Now we have successfully got a tag and event bypassed, and an XSS fired off!
 
 ![img](https://i.imgur.com/mgF8oDu.png)
 
