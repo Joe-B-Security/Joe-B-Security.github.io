@@ -7,7 +7,7 @@ tags: ["MCP", "AI Security", "OWASP", "Open Source"]
 
 ## Expanding the Threat Surface
 
-MCP's popularity means a massive expansion of the AI threat surface. We've gone from isolated chat bots to AI agents with broad system access including token replay attacks, tool poisoning and prompt injection cascades
+MCP's popularity means a massive expansion of the AI threat surface. We've gone from isolated chatbots to AI agents with broad system access including token replay attacks, tool poisoning and prompt injection cascades
 
 The open source community needed guidance, and OWASP's LLM Security Verification Standard was the obvious place to put it.
 
@@ -20,7 +20,7 @@ I contributed 17 new testable security requirements specifically for MCP impleme
 - **Runtime Protection**: Rate limiting, sandboxing, anomaly detection
 - **Transparency**: Audit logging, user visibility into tool invocations
 
-The goal was simple: give developers a clear controls and guidence to implement MCP securely.
+The goal was simple: give developers clear controls and guidance to implement MCP securely.
 
 ## Why This Matters for Open Source
 
@@ -29,4 +29,4 @@ Security standards only work when they're widely adopted. By contributing to OWA
 ### Resources
 
 - Read the full technical analysis at [Snyk Labs](https://labs.snyk.io/resources/snyk-contributes-new-mcp-security-controls-owasp-llmsvs/)
-- Check out the [OWASP LLMSVS controls](https://owasp.org/www-project-llm-security-verification-standard/) for the complete security requirements
+- Check out the [OWASP LLMSVS controls](https://github.com/OWASP/www-project-llm-verification-standard) for the complete security requirements

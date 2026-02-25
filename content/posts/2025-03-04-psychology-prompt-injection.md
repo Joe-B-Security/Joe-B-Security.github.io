@@ -11,11 +11,9 @@ I spoke at the AWS Offices in London at the AI Exchange about a question I wante
 
 ## Why I Gave This Talk
 
-AI models learn from human content and behaviour. The result? Systems that respond to authority, urgency, and emotional appeals just like we do.
+I really wanted to explore that since AI/LLMs are created by humans and trained on human data, do they suffer the same psychological vulnerabilities that humans do, and align with phishing attacks?
 
 I walk through real examples of how AI systems can fall for the same psychological dispositions humans do.
-
-Now that we're building AI that can take real actions in the world, and if they're as easy to fool as humans, we have a whole new threat surface.
 
 ## Watch the Talk
 

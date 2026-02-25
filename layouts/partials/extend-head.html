@@ -5,3 +5,5 @@
 <!-- Custom CSS for Hanken Grotesk typography -->
 {{ $customCSS := resources.Get "css/custom.css" | resources.Minify }}
 <link rel="stylesheet" href="{{ $customCSS.RelPermalink }}" integrity="{{ $customCSS.Data.Integrity }}">
+
+<script defer src="/js/threebody.js"></script>

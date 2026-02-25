@@ -13,6 +13,7 @@
 /* Apply fonts to all elements */
 html {
   font-family: var(--font-body);
+  font-size: 17px;
   font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'pnum' 1, 'tnum' 0, 'onum' 1, 'lnum' 0, 'dlig' 0;
 }
 
@@ -83,14 +84,23 @@ nav, .nav, button, .button, .btn {
 
 /* Professional spacing adjustments */
 .prose {
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.125rem;
+  line-height: 1.75;
 }
 
 /* Code blocks with better mono font */
 code, pre, .highlight {
   font-family: var(--font-mono);
-  font-size: 0.9em;
+}
+
+/* Inline code — smaller relative to prose */
+:not(pre) > code {
+  font-size: 0.82em;
+}
+
+/* Code blocks — match prose size */
+pre, pre code {
+  font-size: 0.95rem;
 }
 
 /* Better font rendering */
@@ -118,38 +128,38 @@ footer {
 /* Responsive wider content layout */
 /* Target main content containers for wider layout */
 .container, .max-w-prose, .prose {
-  max-width: min(90vw, 1200px);
+  max-width: min(92vw, 1400px);
 }
 
 .article-content, .post-content {
-  max-width: min(90vw, 1200px);
+  max-width: min(92vw, 1400px);
 }
 
 /* Article container responsive width */
 article {
-  max-width: min(90vw, 1200px);
+  max-width: min(92vw, 1400px);
   margin: 0 auto;
 }
 
 /* Content wrapper responsive adjustments */
 .content, .article, .single {
-  max-width: min(90vw, 1200px);
+  max-width: min(92vw, 1400px);
   margin: 0 auto;
 }
 
 /* Main content container with responsive limits */
 main {
-  max-width: min(90vw, 1200px);
+  max-width: min(92vw, 1400px);
   margin: 0 auto;
 }
 
 /* Responsive Blowfish layout classes */
 .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
-  max-width: min(90vw, 1200px);
+  max-width: min(92vw, 1400px);
 }
 
 .max-w-3xl, .max-w-2xl, .max-w-xl {
-  max-width: min(85vw, 900px);
+  max-width: min(88vw, 1000px);
 }
 
 /* Target specific prose classes for responsive width */
@@ -247,6 +257,11 @@ h2.text-2xl.font-bold:first-of-type {
     margin-top: 3rem !important;
     margin-bottom: 1.5rem !important;
   }
+}
+
+/* Hide taxonomy badges on homepage cards */
+section.w-full.grid .flex.flex-row.flex-wrap.items-center a {
+  display: none;
 }
 
 /* Improve article content spacing */

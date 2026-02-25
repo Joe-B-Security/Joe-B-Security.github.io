@@ -21,6 +21,9 @@
 ehthumbs.db
 Thumbs.db
 
+# Claude Code session data
+.claude/
+
 # Editor directories and files
 .idea/
 .vscode/

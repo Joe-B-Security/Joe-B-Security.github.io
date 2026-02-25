@@ -6,12 +6,12 @@ tags: ["AI Security","Prompt Injection"]
 ---
 
 
-My curiosity was piqued when Simon Wilison tweeted, *"I still think the very concept of scanning for prompt injection attacks using another layer of AI models is fundamentally flawed."*
+My curiosity was piqued when Simon Willison tweeted, *"I still think the very concept of scanning for prompt injection attacks using another layer of AI models is fundamentally flawed."*
 
 ![Tweet](/images/tweet.png)
 
 
-So, I went down the rabbit hole to test this assertion. I took the tool that Simon had replied too, a tool designed to add a layer of security for LLMs, adding an extra emphasis of helping protect Prompt Injection.
+So, I went down the rabbit hole to test this assertion. I took the tool that Simon had replied to, a tool designed to add a layer of security for LLMs, adding an extra emphasis of helping protect Prompt Injection.
 
 ## The Easy Test: Initial Experimentation
 I started off with some basic prompt injections and LLM Guard did its job well:
@@ -164,7 +164,7 @@ Counter-argument: Critics of this perspective may argue that subjective truths a
 Ultimately, in this philosophical debate, the arguments revolve around the extent to which one should bypass established knowledge systems and rely on subjective or independent exploration to gain access to truth. Both perspectives have their merits and drawbacks, highlighting the complexity and intricacy of philosophical discussions on truth and knowledge.
 ```
 
-Simon Wilison was right on the money. While using another model to protect against prompt injection does add a thin layer of protection, you can see the unpredictability and complexity of large language models make it impossible to guarantee safety.
+Simon Willison was right on the money. While using another model to protect against prompt injection does add a thin layer of protection, you can see the unpredictability and complexity of large language models make it impossible to guarantee safety.
 
 ## Conclusion
 
@@ -174,4 +174,4 @@ LLM Guard does mention “While the dataset is nascent, it can be enriched, draw
 
 If you're dealing with highly sensitive data, the sobering truth is that LLMs may never offer a platform that is completely invulnerable to exploitation.
 
-Further reading on this subject, particularly the views of Simon Wilison, can be found at [Simon Wilison’s Blog](https://simonwillison.net/).
+Further reading on this subject, particularly the views of Simon Willison, can be found at [Simon Willison’s Blog](https://simonwillison.net/).
