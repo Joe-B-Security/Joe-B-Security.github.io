@@ -209,6 +209,11 @@ pre code {
   max-width: 100%;
 }
 
+/* Reduce fixed header spacer (Blowfish default is 148px, nav is only 48px) */
+.min-h-\[148px\] {
+  min-height: 72px;
+}
+
 /* Post List Spacing Improvements */
 /* Ensure Tailwind space-y utilities work properly */
 .space-y-10 > * + * {
