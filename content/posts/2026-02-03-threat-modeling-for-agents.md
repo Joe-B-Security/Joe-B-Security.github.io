@@ -9,6 +9,4 @@ I’ve been threat modeling for a long time, it’s one of the few security prac
 
 With the simultaneous rise and complexity of agentic systems, agents are now making autonomous decisions using tools and new permission models across conditional scenarios, and that complexity only compounds as you add more agents; threat modeling to understand how data flows and is processed through the control, data and authority layers is the most reliable way to surface and contextualise threats along these complex logical chains.
 
-I put this whitepaper together at Snyk to help explain the importance and show practical examples.
-
-[Read the article](https://labs.snyk.io/resources/threat-modeling-best-defense/)
+I put this whitepaper together at Snyk to help explain the importance and show practical examples: [Read the whitepaper](https://labs.snyk.io/resources/threat-modeling-best-defense/)
