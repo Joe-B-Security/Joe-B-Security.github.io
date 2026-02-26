@@ -128,7 +128,7 @@ footer {
 /* Responsive wider content layout */
 /* Target main content containers for wider layout */
 .container, .max-w-prose, .prose {
-  max-width: min(92vw, 1400px);
+  max-width: min(75vw, 1400px);
 }
 
 .article-content, .post-content {
