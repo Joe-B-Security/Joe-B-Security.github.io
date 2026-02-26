@@ -5,13 +5,9 @@ description: "How I helped add 17 new security controls to OWASP LLMSVS for Mode
 tags: ["MCP", "AI Security", "OWASP", "Open Source"]
 ---
 
-## Expanding the Threat Surface
+## The MCP Threat Surface
 
-MCP's popularity means a massive expansion of the AI threat surface. We've gone from isolated chatbots to AI agents with broad system access including token replay attacks, tool poisoning and prompt injection cascades
-
-The open source community needed guidance, and OWASP's LLM Security Verification Standard was the obvious place to put it.
-
-## My Contribution to OWASP LLMSVS
+MCP's popularity means a massive expansion of the AI threat surface. We've gone from isolated chatbots to AI agents with broad system access including token replay attacks, tool poisoning and prompt injection cascades.
 
 I contributed 17 new testable security requirements specifically for MCP implementations. These controls cover the critical security gaps:
 
@@ -20,11 +16,7 @@ I contributed 17 new testable security requirements specifically for MCP impleme
 - **Runtime Protection**: Rate limiting, sandboxing, anomaly detection
 - **Transparency**: Audit logging, user visibility into tool invocations
 
-The goal was simple: give developers clear controls and guidance to implement MCP securely.
-
-## Why This Matters for Open Source
-
-Security standards only work when they're widely adopted. By contributing to OWASP LLMSVS, these MCP controls become part of the broader security community's toolkit. Developers building AI applications now have concrete, testable requirements instead of vague security advice.
+The goal was to give developers clear controls and guidance to implement MCP securely.
 
 ### Resources
 
