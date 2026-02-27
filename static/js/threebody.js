@@ -14,12 +14,26 @@
   // Raise page content above canvas — no background color hacking needed
   document.body.classList.add('threebody-active');
 
+  // Hide canvas immediately on link click so it doesn't flash during
+  // page transition (fixes Android Firefox rendering glitch)
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a');
+    if (link && link.href && link.href.indexOf('#') !== 0) {
+      canvas.style.display = 'none';
+      document.body.classList.remove('threebody-active');
+    }
+  });
+
   // Clean up when leaving the page (bfcache)
   window.addEventListener('pagehide', function() {
+    canvas.style.display = 'none';
     document.body.classList.remove('threebody-active');
   });
   window.addEventListener('pageshow', function(e) {
-    if (e.persisted) document.body.classList.add('threebody-active');
+    if (e.persisted) {
+      canvas.style.display = '';
+      document.body.classList.add('threebody-active');
+    }
   });
 
   var ctx = canvas.getContext('2d');
