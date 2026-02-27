@@ -18,7 +18,10 @@ Which is why, when I started this project, I had a set of criteria in mind:
 - Use automation and tools to collect data, but anything that requires additional probing or requests should go through strict quality gates
 - Use agents as quality gates where possible to overcome brittleness e.g. I can define *“high vs low quality”* semantically instead of tuning a new parameter set for every target
 - Use agents to dynamically drive resource-heavy tooling, e.g. stop and change crawling parameters and behaviour based on what the agent observes
-- Use tiers of models: smaller models for high-volume classification and smart permutations, medium models for bounded tasks with a single well-contextualised prompt and an output that can be validated, and expensive models to orchestrate and keep the big picture coherent over time
+- Use tiers of models: 
+  - smaller models for high-volume classification and smart permutations
+  - medium models for bounded tasks with a single well-contextualised prompt and an output that can be validated
+  - expensive models to orchestrate and keep the big picture coherent over time
 - Agent loops must be bounded with explicit exit conditions and state management to avoid context bloat and low value work
 - A knowledge graph system to build relationships between finding candidates, knowledge base entries, and existing confirmed findings
 
@@ -50,7 +53,7 @@ When I said it looked cool, Claude responded with an interesting bit of "self-re
 
 ## The Agent System
 
-The pipeline uses a tiered model where expensive, capable models make strategic decisions and cheaper models handle high-volume routine work.
+The pipeline uses a tiered model in which expensive capable models make strategic decisions and cheaper models handle high-volume routine work.
 
 The working approach is actually a different flow than I originally intended; I wanted to use the native Claude Code CLI Task tool for Opus to dynamically spawn and steer specialist subagents, but in-process SDK MCP servers don't survive into child CLI processes causing silent tool failures. Instead, every invocation is one-shot via `claude_agent_sdk.query()`, with Python orchestrating the control loop between turns, which actually worked much better as it gives full control over steering, reviewing outputs, and spawning further agents as needed.
 
@@ -104,7 +107,7 @@ I had a rough idea of what I wanted to achieve, and how the data model and data 
 
 - With sessions in hand it dispatches a **test agent** on the obvious IDOR candidates. All return 403, the server correctly validates ownership. The obvious surface is clean
 
-- Rather than marking the endpoint as tested, the **Opus Orchestrator** queries its knowledge tools inline; `graph_untested_high_score` surfaces the `settings` endpoint, never tested. `query_knowledge` returns write-ups, bypasses and methodologies for testing IDORs, dispatches a new **test agent** with new context and tasks, scoped to that endpoint, the POST returns 200, workspace reassigned. However this is currently only a Low severity (can only change own workspace ownership to another user)
+- Rather than marking the endpoint as tested, the **Opus Orchestrator** queries its knowledge tools inline; `graph_untested_high_score` surfaces the `settings` endpoint, never tested. `query_knowledge` returns write-ups, bypasses and methodologies for testing IDORs, dispatches a new **test agent** with new context and tasks, scoped to that endpoint, the POST returns `200`, workspace reassigned. However this is currently only a Low severity (can only change own workspace ownership to another user)
 
 - But the **Opus Orchestrator**  queries again: `graph_finding_patterns` shows CSRF co-occurs with auth findings on two other subdomains in this program. `query_findings` surfaces a prior CSRF finding with `SameSite=None` cookies and no token on a sibling subdomain. `query_knowledge` returns the amplification chain, the **Opus Orchestrator** reasons and concludes an attacker can host a page that auto-submits a cross-origin POST with `owner_id=attacker_user_id`, the victim's browser sends it with their session, field-level auth is missing, workspace transfers
 
@@ -169,7 +172,7 @@ The split is somewhat intentional. The graph answers questions like *"what is co
 
 ### Graph model
 
-I’m using a graph because relational tables don’t feel naturally able to express the relationships I care about e.g.
+I’m using a graph because relational tables don’t feel naturally able to express the relationships I care about e.g.:
 
 - a finding affects an endpoint on a subdomain that runs on a tech stack
 - a technique was tried against an endpoint and failed, so stop paying to re-try it
@@ -220,7 +223,7 @@ The output is an explicit candidate list for replication testing. **Opus Orchest
 
 ### Semantic similarity (pgvector) to make past findings reusable
 
-Every finding has a `findings.embedding vector(768)`, computed via a local `embeddinggemma-300M` server. I picked it because it fits the Pi’s RAM but I was surprised how capable it was for its size.
+Every finding has a `findings.embedding vector(768)`, computed via a local [embeddinggemma-300M](https://huggingface.co/google/embeddinggemma-300m) server. I picked it because it fits the Pi’s RAM but I was surprised how capable it was for its size.
 
 - `HybridSearch.search_findings()` can surface semantically similar past findings even if the exact path or vuln label differs
 - Knowledge sections get embedded too, so *"what should I try next on this GraphQL surface?"* can return both curated technique notes and related past findings in one call
@@ -267,7 +270,7 @@ This creates three hook objects wired to the Agent SDK's `PreToolUse` / `PostToo
 Receives a `scope_checker` (the `ScopeManager` instance) and the current `scope_id`. Before every tool call, it extracts URLs from the input, checking url, target, host, hostname, base_url, and targets (list). Each hostname is validated against the scope's wildcard rules. Out-of-scope calls are denied synchronously with `permissionDecision`: "deny" before the tool executes; the agent receives the denial as a tool result and must adapt.
 
 #### CircuitBreakerHook (`PreToolUse`)
-Tracks failures per hostname in a sliding 60-second window. After 10 failures to the same host, all further calls to it are blocked for the rest of the session. Prevents agents burning turns hammering a dead endpoint. The `record_failure()` method is called from `PostToolUse` when repeated 5xx responses are received.
+Tracks failures per hostname in a sliding 60-second window. After 10 failures (repeated 5xx responses) to the same host, all further calls to it are blocked for the rest of the session. Prevents agents burning turns hammering a dead endpoint. The `record_failure()` method is called from `PostToolUse`.
 
 #### EvidenceLogger (`PostToolUse`)
 Captures every HTTP tool call (`http_request`, `http_fuzz`, `http_upload`, `http_race`, `browser_navigate`), storing URL, method, headers, as_user, status code, content length, and content type. The collected evidence is attached to findings automatically when `create_finding` is called, ensuring every stored finding has a reproducible request/response record. The same hooks dict is passed into every subagent invocation in the epoch. This means the circuit breaker state and evidence log accumulate across the full recon > test > authenticate sequence, so if recon found a host was down, test won't waste calls on it.
@@ -307,7 +310,7 @@ Each refresh queries PostgreSQL directly and renders a full system snapshot:
 These are the supporting choices that made the system stable and predictable. Without them, the agent loop and the knowledge graph don’t work.
 
 ### Custom tooling
-All agent tools are built from the ground up. I wanted to control every I/O of a tool and have it do exactly what I needed to support my methodology. You can also control context bloat here, for example some tools will return a huge amount of data, so you can either use a custom parser, or as I tended to do, if it was a large response, pipe it to `/tmp` and allow the agent (using ripgrep) to make searches on it.
+All non-recon agent tools are built from the ground up. I wanted to control every I/O of a tool and have it do exactly what I needed to support my methodology. You can also control context bloat here, for example some tools will return a huge amount of data, so you can either use a custom parser, or as I tended to do, if it was a large response, pipe it to `/tmp` and allow the agent (using ripgrep) to make searches on it.
 
 ### Epochs and timeouts  
 When running the orchestrator and data collection continuously, it was hard to tell if anything was improving. There wasn’t a clean before/after, and I couldn’t compare runs. The system runs in epochs now; one **Opus Orchestrator** supervisor session per target (default every 4 hours), recorded in `target_epochs`, with a hard timeout so a stuck surface can’t run forever. So essentially this says *"here is all the data since the last run, plan your next moves"* and the orchestrator acts on that. This epoch can be made shorter or longer depending on the activity of the target, and allows collecting metrics and comparing data per epoch.
