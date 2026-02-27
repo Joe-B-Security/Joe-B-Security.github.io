@@ -22,7 +22,7 @@ disableTextInHeader = false
 # defaultFeaturedImage = ""
 
 highlightCurrentMenuArea = true
-smartTOC = true
+smartTOC = false
 smartTOCHideUnfocusedChildren = false
 
 [header]
