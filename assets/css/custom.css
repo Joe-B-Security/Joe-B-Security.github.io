@@ -278,3 +278,13 @@ section.w-full.grid .flex.flex-row.flex-wrap.items-center a {
 .article .text-sm {
   margin-bottom: 0.5rem;
 }
+
+/* Three-body animation: raise all page content above the canvas (z-index: 1).
+   These elements already have non-static positioning from Tailwind — we only
+   need to set z-index, never override position (that would break fixed nav). */
+.threebody-active > header,
+.threebody-active > main,
+.threebody-active > footer,
+.threebody-active > div {
+  z-index: 2;
+}
