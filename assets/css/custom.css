@@ -285,6 +285,6 @@ section.w-full.grid .flex.flex-row.flex-wrap.items-center a {
 .threebody-active > header,
 .threebody-active > main,
 .threebody-active > footer,
-.threebody-active > div {
+.threebody-active > div:not(.fixed) {
   z-index: 2;
 }
