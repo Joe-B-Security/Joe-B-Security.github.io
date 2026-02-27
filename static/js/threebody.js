@@ -7,25 +7,20 @@
   canvas.style.left = '0';
   canvas.style.width = '100vw';
   canvas.style.height = '100vh';
-  canvas.style.zIndex = '-1';
+  canvas.style.zIndex = '1';
   canvas.style.pointerEvents = 'none';
   document.body.appendChild(canvas);
 
-  // Make body transparent so canvas at z-index:-1 is visible through it.
-  // Move the themed background color to <html> so it still provides the
-  // correct base color behind the canvas.
-  function syncBackground() {
-    document.body.style.backgroundColor = '';
-    var bg = getComputedStyle(document.body).backgroundColor;
-    document.documentElement.style.backgroundColor = bg;
-    document.body.style.backgroundColor = 'transparent';
-  }
-  syncBackground();
+  // Raise page content above canvas — no background color hacking needed
+  document.body.classList.add('threebody-active');
 
-  // Re-sync whenever light/dark mode toggles
-  new MutationObserver(syncBackground).observe(
-    document.documentElement, { attributes: true, attributeFilter: ['class'] }
-  );
+  // Clean up when leaving the page (bfcache)
+  window.addEventListener('pagehide', function() {
+    document.body.classList.remove('threebody-active');
+  });
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) document.body.classList.add('threebody-active');
+  });
 
   var ctx = canvas.getContext('2d');
   var width, height, scale;
@@ -49,7 +44,12 @@
     scale = Math.min(width, height) * 0.55;
   }
 
-  window.addEventListener('resize', resize);
+  // visualViewport fires on iOS when address bar shows/hides; fallback to resize
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', resize);
+  } else {
+    window.addEventListener('resize', resize);
+  }
   resize();
   resetBodies();
 
