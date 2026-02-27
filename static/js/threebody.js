@@ -5,8 +5,8 @@
   canvas.style.position = 'fixed';
   canvas.style.top = '0';
   canvas.style.left = '0';
-  canvas.style.width = '100vw';
-  canvas.style.height = '100vh';
+  // No CSS width/height — pixel dimensions drive size so there's no
+  // vw/vh vs innerWidth/Height mismatch on mobile Safari
   canvas.style.zIndex = '1';
   canvas.style.pointerEvents = 'none';
   document.body.appendChild(canvas);
