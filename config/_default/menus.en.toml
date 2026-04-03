@@ -19,4 +19,8 @@
   url = "/tags"
   weight = 20
 
-
+[[footer]]
+  pre = "rss"
+  url = "/index.xml"
+  title = "RSS Feed"
+  weight = 10
