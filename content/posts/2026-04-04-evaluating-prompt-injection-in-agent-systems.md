@@ -1,6 +1,6 @@
 ---
 title: "Creating Custom Security Evaluation Harnesses for Agent Systems"
-date: 2026-04-05
+date: 2026-04-04
 description: "What a successful prompt injection looks like in an agent system, and how to design an eval harness that catches it through tool call traces rather than text output."
 tags: ["AI Security", "Prompt Injection", "Agent Security"]
 ---
