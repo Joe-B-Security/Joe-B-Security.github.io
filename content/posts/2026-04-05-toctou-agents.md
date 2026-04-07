@@ -28,7 +28,7 @@ This does not require an attacker to exploit deliberately, because the same inte
 
 ## Mitigation
 
-The mitigation is atomicity at the state mutation layer, where transactions, optimistic locking, or compare-and-swap ensure that an authorisation check and the state mutation it gates cannot be split by a concurrent write from another agent. These are familiar concurrency primitives, but they tend to get overlooked in agent architectures where the focus is on model behaviour and prompt security rather than on how the orchestration layer handles shared state.
+The mitigation is atomicity at the state mutation layer, where transactions, optimistic locking, or compare-and-swap ensure that an authorisation check and the state mutation it gates cannot be split by a concurrent write from another agent. These are familiar concurrency primitives, but they tend to get overlooked in agent architectures where the focus is on model behaviour and prompt security rather than on how the orchestration layer handles shared state. Threat modeling and understanding the logical chains which can create these scenarios I discussed more here: [Datalog for Agent Security Analysis](https://joe-b-security.github.io/posts/2026-04-05-datalog-for-agent-security-analysis/)
 
 ## Contributing to AISVS
 
