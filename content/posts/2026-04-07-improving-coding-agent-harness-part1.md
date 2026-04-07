@@ -1,6 +1,6 @@
 ---
 title: "Improving a Coding Agent Harness: Part 1, Reading Code"
-date: 2026-04-07
+date: 2026-04-07T09:00:00
 description: "What happens when you give a coding agent tree-sitter instead of grep, tested against Flask with a 9B parameter model."
 tags: ["AI Security", "AI Agents", "Coding Agents"]
 ---
@@ -13,11 +13,11 @@ This first part covers code reading and understanding. The base harness gives th
 
 ## Reading code
 
-I forked mini-coding-agent, pointed it at Flask's source, and ran it with qwen3.5-9b through LM Studio, which already exposes an OpenAI-compatible endpoint locally. I set a 16k context limit, which felt a reasonable budget for running a small model locally on my macbook air, and it makes the cost of noisy tool output more visible since every wasted token counts against a tight window. The base harness gives the model three ways to read code: a directory listing, a file reader that takes line ranges, and grep. These are the same tools most coding agent harnesses ship with.
+The test setup was a fork of mini-coding-agent running against Flask's source with qwen3.5-9b through LM Studio, with a 16k context limit as a reasonable budget for running a small model locally on a MacBook Air. The tight window makes the cost of noisy tool output more visible since every wasted token counts. The base harness gives the model three ways to read code: a directory listing, a file reader that takes line ranges, and grep, which are the same tools most coding agent harnesses ship with.
 
 When I asked "where is the Blueprint class defined?", the model searched for `class Blueprint`, got 4 results, then read the full file to confirm. That was 2 tool calls plus a malformed output retry, consuming 4,485 characters of tool output to answer a question that has a two-line answer. With a raw search for just "Blueprint", grep returned 30 lines (clipped from 60 actual matches in Flask's source). Definitions, imports, docstrings, type hints, and test fixtures were all mixed together.
 
-The more revealing test was a practical question: "I need to modify how Blueprint handles URL prefixes, help me find the relevant code." The tool trace from that session looked like this:
+A more practical question was "I need to modify how Blueprint handles URL prefixes, help me find the relevant code." The tool trace from that session:
 
 ```
 search({"pattern": "class Blueprint", "path": "."})
@@ -39,7 +39,7 @@ The noise ratios explain why orientation is so expensive. Grep for "Flask" in Fl
 
 A Python parser knows that `class Blueprint(Scaffold):` is a class definition and that `from .blueprints import Blueprint` is an import. These are different node types in the syntax tree. Tree-sitter, which parses source code into concrete syntax trees fast enough for real-time editor use, lets you query for specific node types. A query like `(class_definition name: (identifier) @name)` matches class definitions and nothing else. No intelligence is being added here, just access to information the parser already produces.
 
-I built a module (`code_intel.py`) that uses tree-sitter to provide three capabilities the base agent does not have, each one addressing a specific problem from the baseline testing.
+I built a module (`code_intel.py`) that uses tree-sitter to provide three capabilities the base agent does not have.
 
 ## Symbol search: find_defs and find_refs
 
@@ -55,7 +55,7 @@ Found 2 definitions for 'Blueprint':
   src/flask/sansio/blueprints.py:119
 ```
 
-One tool call, and the model answered correctly. The baseline needed 2 tool calls, a retry, and 4,485 characters to reach the same answer, because the harness could not tell the model which of the grep results were definitions and which were noise.
+One tool call, correct answer, compared to the baseline's 2 tool calls, a retry, and 4,485 characters to reach the same place, because the harness could not tell the model which of the grep results were definitions and which were noise.
 
 ## File relationships: related_files
 
@@ -105,7 +105,7 @@ The complete function in 318 characters, with correct line numbers, no guessing 
 
 ## End to end
 
-I tested all four tools together in one conversation. The question was "I want to understand the Blueprint class."
+All four tools together in one conversation, with the question "I want to understand the Blueprint class":
 
 ```
 find_defs({"symbol": "Blueprint"})                                       ->    3 lines,   104 chars
