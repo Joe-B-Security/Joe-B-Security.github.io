@@ -11,7 +11,7 @@ In [Part 1](/posts/2026-04-07-improving-coding-agent-harness-part1/), I added tr
 
 `find_definitions` takes a symbol name and a path, walks the directory tree, parses each file, and returns matches. `read_symbol` takes a file path and a function name, chunks the file at AST boundaries, and returns the matching chunk. Both work as expected, but they'll do it on any path you give them. Point `find_definitions` at a directory outside the workspace, and it walks it. The file walker inside `code_intel.py` has no concept of a workspace boundary. It recurses wherever you point it.
 
-This matters because a coding agent reads untrusted content as part of normal operation. A README, a GitHub issue, a code comment, or a dependency's docstring could contain an indirect prompt injection that tells the agent to read `~/.ssh/id_rsa` or `~/.aws/credentials` and include the contents in a curl request to an external endpoint.
+You have to always consider a coding agent reads untrusted content as part of normal operations. A README, a GitHub issue, a code comment, or a dependency's docstring could contain an indirect prompt injection that tells the agent to read `~/.ssh/id_rsa` or `~/.aws/credentials` and include the contents in a curl request to an external endpoint.
 
 The agent itself has path validation. Mini-coding-agent's `path()` method resolves paths and checks that they fall within the workspace root using `samefile()`. But the code intel functions do their own file walking internally. The boundary check happens at one layer, the file access at another, and the code intel tools bypass the boundary entirely.
 
