@@ -182,7 +182,7 @@ The enrichment carried enough signal to pull both SSRF sections into the top 2 w
 
 ## Try it yourself
 
-The [companion repository](https://github.com/Joe-B-Security/mini-coding-agent/tree/feat/part2-5-secure-writing) has the RAG pipeline layered on top of the Part 1 code understanding tools, the Part 1.5 secure factory, and the Part 2 OODA loop.
+The [companion repository](https://github.com/Joe-B-Security/mini-coding-agent/tree/feat/part2.5-writing-secure-code) has the RAG pipeline layered on top of the Part 1 code understanding tools, the Part 1.5 secure factory, and the Part 2 OODA loop.
 
 ```bash
 git clone https://github.com/Joe-B-Security/mini-coding-agent.git
