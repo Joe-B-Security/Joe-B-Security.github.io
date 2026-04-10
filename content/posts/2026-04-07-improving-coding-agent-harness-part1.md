@@ -165,3 +165,10 @@ uv run python mini_coding_agent.py \
     --approval auto \
     --cwd /path/to/a/python/project
 ```
+
+## Series
+
+- Part 1, Reading Code (This post)
+- [Part 1.5, Securely Reading Code](/posts/2026-04-07-improving-coding-agent-harness-part1-5/)
+- [Part 2, Writing Code](/posts/2026-04-09-improving-coding-agent-harness-part2/)
+- [Part 2.5, Securely Writing Code](/posts/2026-04-10-improving-coding-agent-harness-part2-5/)

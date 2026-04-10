@@ -66,23 +66,25 @@ flowchart TD
     style TDD fill:#d4edda
 {{< /mermaid >}}
 
-The verify-retry loop is the key addition. When the model says "done," the harness runs the verify gates before accepting the answer. If verification fails, the model gets the failure output and tries again. The green phases are deterministic (handled by the harness), the yellow phase is where the model does its creative work, and the red path is the feedback loop when verification fails.
+When the model says "done," the harness runs the verify gates before accepting the answer, and if verification fails, the failure output goes back to the model as feedback for another attempt. The green phases are handled deterministically by the harness, the yellow phase is where the model does its creative work, and the red path is the feedback loop when verification fails.
 
 ## The rule engine
 
-The rule engine is a simplified [Datalog](https://en.wikipedia.org/wiki/Datalog) with a fact store, pattern-matching rules with variable binding, and forward-chaining to a fixed point. Facts are tuples, rules match patterns against facts and derive new facts, and variables (prefixed with `?`) unify across conditions in a rule.
+The rule engine is a small [Datalog](https://en.wikipedia.org/wiki/Datalog) implementation that the decide phase uses to work out what verification is needed. Datalog is a declarative logic language where you assert facts (simple statements like "this test file covers this source file") and write rules that derive new facts from conditions that match existing facts. It uses forward-chaining evaluation, which means the engine starts from the facts it has and applies rules repeatedly to derive new ones, continuing until no new facts can be derived. That end state is called a fixed point, and reaching it means you have the full set of conclusions the rules support.
 
-At startup, the harness scans the workspace for test files and asserts coverage facts:
+Rules can use variables, written with a `?` prefix, that get bound to values when the engine matches conditions against facts. If the same variable appears in more than one condition, it has to bind to the same value in all of them, so one rule can work across any file rather than being hardcoded to a specific one.
+
+At startup, the harness scans the workspace for test files and asserts a coverage fact for each pair it finds:
 
 `[facts] assert test_covers('test_auth.py', 'auth.py')`
 
 `[facts] assert has_tests`
 
-When the model modifies a file, the harness asserts the modification and derives verify gates. The TDD gate (since it enforces that tests pass before changes are accepted) is where the variable binding matters:
+When the model modifies a file, the harness asserts that too and re-runs the rules. The TDD gate rule (named after test-driven development, since it enforces that tests pass before changes are accepted) uses placeholder variables that get filled in with whatever matches:
 
-`[rules] tdd_gate: file_modified('auth.py') + test_covers('test_auth.py', 'auth.py') -> verify_gate('run_tests')`
+`[rules] tdd_gate: file_modified(?file) + test_covers(?test, ?file) -> verify_gate('run_tests')`
 
-The `?file` variable binds to `'auth.py'` in the first condition and must match in the second. If the model modifies a file that has no test coverage, the rule doesn't fire, and if it modifies a covered file, tests run automatically without any model judgment involved.
+The `?file` variable appears twice, which means the same value has to match in both conditions. If `file_modified('auth.py')` is asserted and there's also a `test_covers('test_auth.py', 'auth.py')` fact, both conditions match with `?file` bound to `'auth.py'`, and the rule fires. If the model modifies a file with no test coverage, the second condition fails to match anything and the rule doesn't fire, so the verify phase won't run tests that don't exist.
 
 ## What it looks like running
 
@@ -231,3 +233,11 @@ uv run python mini_coding_agent.py --cwd /path/to/project
 ```
 
 The `/rules` command in the REPL shows the current fact store and derived conclusions. The rule engine traces print to stderr so they appear alongside the agent output.
+
+
+## Series
+
+- [Part 1, Reading Code](/posts/2026-04-07-improving-coding-agent-harness-part1/)
+- [Part 1.5, Securely Reading Code](/posts/2026-04-07-improving-coding-agent-harness-part1-5/)
+- Part 2, Writing Code (This post)
+- [Part 2.5, Securely Writing Code](/posts/2026-04-10-improving-coding-agent-harness-part2-5/)
