@@ -178,3 +178,10 @@ uv run python mini_coding_agent.py \
 ```
 
 To see the boundary in action, create a file outside your `--cwd` directory and try to find or read it. Try placing a symlink inside the workspace that points outside.
+
+## Series
+
+- [Part 1, Reading Code](/posts/2026-04-07-improving-coding-agent-harness-part1/)
+- Part 1.5, Securely Reading Code (This post)
+- [Part 2, Writing Code](/posts/2026-04-09-improving-coding-agent-harness-part2/)
+- [Part 2.5, Securely Writing Code](/posts/2026-04-10-improving-coding-agent-harness-part2-5/)
