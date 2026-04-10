@@ -9,7 +9,7 @@ In [Part 1](/posts/2026-04-07-improving-coding-agent-harness-part1/), I added tr
 
 ## Creativity vs determinism
 
-Models tend to handle creativity and synthesis well, the parts of coding that involve reading a problem, understanding what needs to change, and generating code that addresses it. Where they struggle is consistency, memory, and self-evaluation, the parts that require remembering organisation-specific requirements across sessions, checking whether output broke existing tests, or deciding whether their own work is correct.
+Models tend to handle creativity and synthesis well: reading a problem, understanding what needs to change, and generating code that addresses it. Where they struggle is consistency, memory, and self-evaluation: remembering organisation-specific requirements across sessions, checking whether output broke existing tests, or deciding whether their own work is correct.
 
 The idea behind this part was to bring determinism to the non-creative parts of the workflow by combining three concepts. 
 - The first is injecting context that the model doesn't have, like security standards, compliance rules, or internal conventions that aren't in its training data, so the model writes code that meets actual organisational requirements rather than producing plausible output that misses them. 
@@ -66,7 +66,7 @@ flowchart TD
     style TDD fill:#d4edda
 {{< /mermaid >}}
 
-When the model says "done," the harness runs the verify gates before accepting the answer, and if verification fails, the failure output goes back to the model as feedback for another attempt. The green phases are handled deterministically by the harness, the yellow phase is where the model does its creative work, and the red path is the feedback loop when verification fails.
+When the model says "done," the harness runs the verify gates before accepting the answer, and if verification fails, the failure output goes back to the model as feedback for another attempt. The green phases are handled deterministically by the harness while the yellow phase is where the model does its creative work, and the red path is the feedback loop when verification fails.
 
 ## The rule engine
 
@@ -127,11 +127,11 @@ def change_password(self, username: str, old_password: str, new_password: str) -
     return True
 ```
 
-The second version has password validation matching the org rule, type hints, a locked-state check, and no `self.authenticate()` call (which would have incremented the attempts counter as a side effect), all from a single knowledge entry in the orient phase.
+The second version has password validation matching the org rule, type hints, a locked-state check, and no `self.authenticate()` call (which would have incremented the attempts counter as a side effect), and all of that came from a single knowledge entry in the orient phase.
 
 **Decide and verify: the TDD gate.** When the model modifies a file, the decide phase checks the rule engine to determine what verification is needed. The model doesn't decide whether to run tests, the rule engine derives it from workspace facts: if a modified file has test coverage, the TDD gate fires and the verify phase runs those tests before accepting the output. If tests fail, the verify phase feeds the failure back to the model as context for a retry.
 
-I asked the agent to change the lockout threshold from 3 to 5. Without OODA, the model patched `max_attempts`, said "done," and left. The test `test_lockout_after_max_attempts` now fails because it only tries 3 wrong passwords but the threshold is 5, and the agent has no way of knowing.
+I asked the agent to change the lockout threshold from 3 to 5. Without OODA, the model patched `max_attempts`, said "done," and left. The test `test_lockout_after_max_attempts` now fails because it only tries 3 wrong passwords but the threshold is 5, which the agent has no way of detecting.
 
 ```
 Without OODA:
@@ -139,7 +139,7 @@ Without OODA:
   AGENT: The lockout threshold has been updated.
 
   Tests: 1 failed (test_lockout_after_max_attempts)
-  Agent: unaware
+  Agent: not aware of the failure
 ```
 
 With OODA, the model made the same patch. But when it said "done," the decide phase had already derived two verify gates from the single fact `file_modified('auth.py')`:
@@ -163,7 +163,7 @@ With OODA:
   TOOL [patch_file] test_auth.py    <- model starts updating test
 ```
 
-The verify phase injected the test output as feedback, and the model started fixing the test. The model didn't decide to run tests or notice the regression on its own, because that decision was derived by the rule engine and enforced by the verify phase based on workspace facts.
+The verify phase injected the test output as feedback, and the model started fixing the test. The model didn't need to decide to run tests or notice the regression, since the rule engine derived that decision from workspace facts and the verify phase enforced it.
 
 **Orient across sessions: knowledge persistence.** Without persistence, the agent rediscovers the same information every session: which test command to use, which conventions to follow, which files are related. That costs tool calls and context window budget each time. The knowledge store fixes this by persisting what the agent learns to disk, so the orient phase in a new session already has context from previous ones.
 
@@ -184,15 +184,15 @@ Session 2 (new session, same workspace):
 
 The knowledge store has two tiers: workspace entries that stay with the project, and global entries that follow you across projects. Both persist to disk and load automatically on startup, so the orient phase in a new session already has the context that previous sessions accumulated.
 
-Across all three scenarios, the model's creative work didn't change, it generated the same kind of code in each case. What changed was what the OODA loop did around it. Orient injected context the model couldn't know about, decide and verify caught a regression the model wasn't aware of, and persistent knowledge meant orient started informed in future sessions. Each of these is a deterministic operation that the harness handles without the model needing to be better at self-evaluation or memory.
+Across all three scenarios the model's creative work didn't change, it generated the same kind of code in each case, and what changed was what the OODA loop did around it: orient injected context the model couldn't know about, decide and verify caught a regression the model wasn't aware of, and persistent knowledge meant orient started informed in future sessions. All of these are deterministic operations that the harness handles, so the improvements don't depend on the model getting better at self-evaluation or memory.
 
 ## What a production version would look like
 
-The rule engine is a simplified Datalog. Full Datalog solvers support policy enforcement, intent routing, and verification in production. The full version supports negation, aggregation, and tiered governance where some rules are immutable kernel axioms and others are learned from data, but the shape of facts being asserted, rules firing, and decisions being derived is the same.
+The rule engine here is a simplified Datalog. A full implementation would support negation, aggregation, and tiered governance where some rules are immutable kernel axioms and others are learned from data, but the shape of facts being asserted, rules firing, and decisions being derived would be the same.
 
 The orient phase finds relevant knowledge by comparing the current task against stored entries using basic keyword-frequency matching, and persists entries as JSON files. Production would use an embedding model and vector database for faster, more accurate retrieval, with the entries themselves coming from automated workflows that pull standards and conventions from existing organisational tooling like policy management systems, internal wikis, or compliance platforms rather than relying on someone to type them in.
 
-The verify phase runs `ast.parse()` and pytest. Production would add linting, type checking, security scanning, and coverage thresholds as additional gates that must pass before output is accepted, but the loop of proposing, checking, and feeding failures back stays the same.
+The verify phase runs `ast.parse()` and pytest. Production would add linting, type checking, security scanning, and coverage thresholds as additional gates that must pass before output is accepted, while keeping the same loop of proposing, checking, and feeding failures back.
 
 
 ## Try it yourself
