@@ -37,13 +37,13 @@ A few `find_defs` lookups on the scoring-path functions (`_parse_results`, `_set
 
 The agent's read surfaced four observations, ordered from the outside in:
 
-**Tests are invoked via keystroke injection, not process execution.** The harness does not run the test script via `docker exec`. It types `bash /tests/run-tests.sh` as keystrokes into a tmux pane (`harness.py`). Whatever bash is running in that pane receives those characters as a command-line input, which means shell functions, aliases, and PATH overrides all take precedence over the binary. A function named `bash` defined in that shell intercepts the entire test invocation.
+- **Tests are invoked via keystroke injection, not process execution.** The harness does not run the test script via `docker exec`. It types `bash /tests/run-tests.sh` as keystrokes into a tmux pane (`harness.py`). Whatever bash is running in that pane receives those characters as a command-line input, which means shell functions, aliases, and PATH overrides all take precedence over the binary. A function named `bash` defined in that shell intercepts the entire test invocation.
 
-**The test session runs as root regardless of the agent user.** The test phase creates a new tmux session with `as_configured_user=False` (`harness.py`), which resolves to `user="root"`. That root shell sources `/etc/profile.d/*.sh`, `/root/.bashrc`, and `/root/.bash_profile` at startup. Anything the agent phase writes to those files executes as root in the test phase, which means even a non-root agent can poison the root shell init.
+- **The test session runs as root regardless of the agent user.** The test phase creates a new tmux session with `as_configured_user=False` (`harness.py`), which resolves to `user="root"`. That root shell sources `/etc/profile.d/*.sh`, `/root/.bashrc`, and `/root/.bash_profile` at startup. Anything the agent phase writes to those files executes as root in the test phase, which means even a non-root agent can poison the root shell init.
 
-**The parser returns an empty dict when no test results are found.** The pytest parser (`pytest_parser.py`) splits the captured pane on the `short test summary info` marker and iterates the lines after it, looking for valid status keywords. If the marker is found but no valid status lines follow, the parser returns `{}` without error.
+- **The parser returns an empty dict when no test results are found.** The pytest parser (`pytest_parser.py`) splits the captured pane on the `short test summary info` marker and iterates the lines after it, looking for valid status keywords. If the marker is found but no valid status lines follow, the parser returns `{}` without error.
 
-**The scoring predicate treats an empty dict as "resolved."** The function that decides whether a trial passed (`harness.py`):
+- **The scoring predicate treats an empty dict as "resolved."** The function that decides whether a trial passed (`harness.py`):
 
 ```python
 def _is_resolved(self, parser_results):
