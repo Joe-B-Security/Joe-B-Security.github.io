@@ -185,3 +185,4 @@ To see the boundary in action, create a file outside your `--cwd` directory and 
 - Part 1.5, Securely Reading Code (This post)
 - [Part 2, Writing Code](/posts/2026-04-09-improving-coding-agent-harness-part2/)
 - [Part 2.5, Securely Writing Code](/posts/2026-04-10-improving-coding-agent-harness-part2-5/)
+- [Part 3, Scoring 100% on Coding Benchmarks](/posts/2026-04-13-improving-coding-agent-harness-part3/)

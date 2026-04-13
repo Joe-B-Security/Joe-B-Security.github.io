@@ -208,3 +208,4 @@ The first run with `--security-corpus` parses, tags, embeds, and indexes the cor
 - [Part 1.5, Securely Reading Code](/posts/2026-04-07-improving-coding-agent-harness-part1-5/)
 - [Part 2, Writing Code](/posts/2026-04-09-improving-coding-agent-harness-part2/)
 - Part 2.5, Securely Writing Code (This post)
+- [Part 3, Scoring 100% on Coding Benchmarks](/posts/2026-04-13-improving-coding-agent-harness-part3/)
