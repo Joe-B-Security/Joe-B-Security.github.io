@@ -242,3 +242,5 @@ The `/rules` command in the REPL shows the current fact store and derived conclu
 - Part 2, Writing Code (This post)
 - [Part 2.5, Securely Writing Code](/posts/2026-04-10-improving-coding-agent-harness-part2-5/)
 - [Part 3, Scoring 100% on Coding Benchmarks](/posts/2026-04-13-improving-coding-agent-harness-part3/)
+- [Part 4, Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4/)
+- [Part 4.5, Security Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4-5/)

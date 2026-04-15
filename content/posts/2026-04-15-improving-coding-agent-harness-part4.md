@@ -68,6 +68,8 @@ These two taxes stack on top of each other, and a Python subprocess hook pays bo
 
 ## From Python to Rust
 
+I normally work in Python rather than Rust, and Claude Code helped a lot with the Rust side. Working through this was a good way to understand what Rust actually gives you in this context: the type system catches whole categories of mistakes at compile time that Python would only surface at runtime, cross-module function calls between classifiers are just regular calls with no serialisation overhead, and libraries like the `regex` crate offer data structures (like `RegexSet`) that take a fundamentally different algorithmic approach to problems Python's standard library solves in a slower way. The performance numbers in the benchmark below come from those structural differences rather than from Rust just being "a faster language."
+
 ### PyO3 and maturin
 
 [PyO3](https://pyo3.rs/) is a Rust crate that produces Python extension modules from Rust code. Functions annotated with `#[pyfunction]` become callable from Python, and PyO3 handles reference counting, type conversions, and error propagation across the language boundary. What you write is Rust, and what you get is a shared library that Python loads like any other extension.
@@ -231,3 +233,4 @@ uv run python mini_coding_agent.py \
 - [Part 2.5, Securely Writing Code](/posts/2026-04-10-improving-coding-agent-harness-part2-5/)
 - [Part 3, Scoring 100% on Coding Benchmarks](/posts/2026-04-13-improving-coding-agent-harness-part3/)
 - Part 4, Hooks (This post)
+- [Part 4.5, Security Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4-5/)
