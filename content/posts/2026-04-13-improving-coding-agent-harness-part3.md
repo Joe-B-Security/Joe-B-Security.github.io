@@ -168,3 +168,5 @@ uv run python mini_coding_agent.py \
 - [Part 2, Writing Code](/posts/2026-04-09-improving-coding-agent-harness-part2/)
 - [Part 2.5, Securely Writing Code](/posts/2026-04-10-improving-coding-agent-harness-part2-5/)
 - Part 3, Scoring 100% on Coding Benchmarks (This post)
+- [Part 4, Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4/)
+- [Part 4.5, Security Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4-5/)
