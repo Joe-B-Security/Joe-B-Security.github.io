@@ -156,7 +156,7 @@ When you build tools for a coding agent, the natural focus is on making them wor
 
 The factory pattern handles the boundary question because it moves the decision to construction time. You pass `--cwd /path/to/project`, the factory locks to that root, and every tool it produces inherits the constraint. There is no code path that forgets to check, because the check is built into how the tools are created.
 
-The stronger property turned out to be invisibility. The model does not get told "you cannot access that file." For paths outside the workspace, the model gets told "that file does not exist." It cannot discover what to escape to, because the tools that would let it discover are themselves bounded by the factory.
+Beyond blocking access, the factory hides the existence of anything outside the workspace from the model. It does not get told "you cannot access that file" for those paths; it gets told "that file does not exist." It cannot discover what to escape to, because the tools that would let it discover are themselves bounded by the factory.
 
 ## Try it yourself
 
