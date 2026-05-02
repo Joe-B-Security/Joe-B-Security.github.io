@@ -188,3 +188,5 @@ To see the boundary in action, create a file outside your `--cwd` directory and 
 - [Part 3, Scoring 100% on Coding Benchmarks](/posts/2026-04-13-improving-coding-agent-harness-part3/)
 - [Part 4, Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4/)
 - [Part 4.5, Security Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4-5/)
+- [Part 5, Sandboxing](/posts/2026-04-28-improving-coding-agent-harness-part5/)
+- [Part 5.5, Secrets Sandboxing](/posts/2026-05-02-improving-coding-agent-harness-part5-5/)

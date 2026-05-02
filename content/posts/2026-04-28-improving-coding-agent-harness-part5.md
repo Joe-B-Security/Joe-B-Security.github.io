@@ -116,3 +116,4 @@ Add `--hooks-file ./example_hooks/security/hooks.json` to compose the sandbox wi
 - [Part 4, Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4/)
 - [Part 4.5, Security Hooks](/posts/2026-04-15-improving-coding-agent-harness-part4-5/)
 - Part 5, Sandboxing (This post)
+- [Part 5.5, Secrets Sandboxing](/posts/2026-05-02-improving-coding-agent-harness-part5-5/)
