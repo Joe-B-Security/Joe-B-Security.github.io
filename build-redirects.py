@@ -29,7 +29,13 @@ DATED = re.compile(r"^\d{4}-\d{2}-\d{2}-")
 
 
 def stub(target: str, title: str) -> str:
-    """A page whose only job is to leave. Canonical carries the SEO signal."""
+    """A page whose only job is to leave. Canonical carries the SEO signal.
+
+    Deliberately no `robots: noindex` here. It contradicts the canonical — one
+    says "drop this page", the other says "credit the target with its signals" —
+    and the noindex tends to win, discarding the link equity we are forwarding.
+    404.html is the exception: it already returns a 404, so noindex is right.
+    """
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -37,7 +43,6 @@ def stub(target: str, title: str) -> str:
 <title>Moved to joesec.me</title>
 <link rel="canonical" href="{target}">
 <meta http-equiv="refresh" content="0; url={target}">
-<meta name="robots" content="noindex, follow">
 <style>
   body {{ background:#0c1116; color:#e7edf2; font:17px/1.6 system-ui,sans-serif;
          display:grid; place-items:center; min-height:100vh; margin:0; }}
